@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/components/task_tile.dart';
 import 'package:todoapp/controllers/task_data_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:todoapp/screens/edit_screen.dart';
 
 class TaskGridView extends StatefulWidget {
   @override
@@ -25,24 +25,7 @@ class _TaskGridViewState extends State<TaskGridView> {
             itemBuilder: (context, index) {
               final task = taskdata.tasks[index];
               return TaskTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditTask(
-                        selectedTask: task,
-                      ),
-                    ),
-                  );
-                },
-                title: task.title,
-                date: task.date,
-                isCompleted: task.isDone,
-                priority: task.priority,
-                description: task.description,
-                chechboxState: (checkState) {
-                  taskdata.updateTask(task);
-                },
+                task: task,
               );
             });
       },
