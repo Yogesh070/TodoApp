@@ -34,6 +34,10 @@ class TaskData extends ChangeNotifier {
       description: 'gg',
     ),
   ];
+  final List<Task> _pinnedTask = [];
+  UnmodifiableListView<Task> get pinnedTask =>
+      UnmodifiableListView(_pinnedTask);
+  int get pinnedTaskCount => pinnedTask.length;
 
   int get taskCount => _tasks.length;
   UnmodifiableListView<Task> get tasks => UnmodifiableListView(_tasks);
@@ -45,7 +49,7 @@ class TaskData extends ChangeNotifier {
       description: taskDescription,
       priority: taskPriority,
     );
-    _tasks.add(newtask);
+    _tasks.insert(0, newtask);
     notifyListeners();
   }
 
@@ -56,6 +60,21 @@ class TaskData extends ChangeNotifier {
 
   void deleteTask(Task task) {
     _tasks.remove(task);
+    notifyListeners();
+  }
+
+  void pinTask(Task task) {
+    _tasks.remove(task);
+    _pinnedTask.insert(0, task);
+
+    task.tooglePin();
+    notifyListeners();
+  }
+
+  void unpinTask(Task task) {
+    _pinnedTask.remove(task);
+    _tasks.insert(0, task);
+    task.tooglePin();
     notifyListeners();
   }
 }
