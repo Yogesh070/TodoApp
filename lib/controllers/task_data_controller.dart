@@ -59,7 +59,7 @@ class TaskData extends ChangeNotifier {
   }
 
   void deleteTask(Task task) {
-    _tasks.remove(task);
+    task.isPinned! ? _pinnedTask.remove(task) : _tasks.remove(task);
     notifyListeners();
   }
 
