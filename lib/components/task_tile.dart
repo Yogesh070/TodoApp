@@ -122,7 +122,7 @@ class TaskTile extends StatelessWidget {
                 ),
               );
             },
-            minVerticalPadding: (mediaWidth > 600) ? 24 : 16,
+            minVerticalPadding: 24,
             tileColor: Colors.white,
             leading: Transform.scale(
               scale: 1.3,
