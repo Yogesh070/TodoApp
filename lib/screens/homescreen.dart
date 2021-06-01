@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:todoapp/components/pinned_task_container.dart';
 import 'package:todoapp/components/task_list_gridview.dart';
 import 'package:todoapp/constants/contant.dart';
 import 'package:todoapp/controllers/home_controller.dart';
@@ -80,68 +79,20 @@ class HomeScreen extends StatelessWidget {
                 ),
                 (taskController.pinnedTaskCount > 0 ||
                         taskController.taskCount > 0)
-                    // ? Expanded(
-                    //     child: Column(
-                    //       children: [
-                    //         taskController.pinnedTaskCount > 0
-                    //             ? PinnedTaskContainer()
-                    //             : SizedBox.shrink(),
-                    //         taskController.taskCount > 0
-                    //             ? Expanded(
-                    //                 child: Column(
-                    //                   crossAxisAlignment:
-                    //                       CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Padding(
-                    //                       padding: const EdgeInsets.symmetric(
-                    //                           vertical: 16),
-                    //                       child: Text(
-                    //                         'Remaining Tasks (${taskController.taskCount})',
-                    //                         style: Theme.of(context)
-                    //                             .textTheme
-                    //                             .bodyText1,
-                    //                       ),
-                    //                     ),
-                    //                     Expanded(
-                    //                       child: homecontroller.isListLayout
-                    //                           ? TaskLists()
-                    //                           : TaskGridView(),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               )
-                    //             : SizedBox.shrink(),
-                    //       ],
-                    //     ),
-                    //   )
-
-                    ? Expanded(
-                        child: SingleChildScrollView(
-                          physics: ScrollPhysics(),
-                          child: taskController.taskCount > 0
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16),
-                                      child: Text(
-                                        'Remaining Tasks (${taskController.taskCount})',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1,
-                                      ),
-                                    ),
-                                    taskController.pinnedTaskCount > 0
-                                        ? PinnedTaskContainer()
-                                        : SizedBox.shrink(),
-                                    homecontroller.isListLayout
-                                        ? TaskLists()
-                                        : TaskGridView(),
-                                  ],
-                                )
-                              : SizedBox.shrink(),
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          'Remaining Tasks (${taskController.taskCount + taskController.pinnedTaskCount})',
+                          style: Theme.of(context).textTheme.bodyText1,
                         ),
+                      )
+                    : SizedBox.shrink(),
+                (taskController.pinnedTaskCount > 0 ||
+                        taskController.taskCount > 0)
+                    ? Expanded(
+                        child: homecontroller.isListLayout
+                            ? TaskListView()
+                            : TaskGridView(),
                       )
                     : Expanded(
                         child: Stack(
@@ -155,7 +106,6 @@ class HomeScreen extends StatelessWidget {
                             Container(
                               width: double.infinity,
                               child: Padding(
-                                // padding: const EdgeInsets.all(64.0),
                                 padding: EdgeInsets.only(
                                     top: 400, left: 48, right: 48),
                                 child: Text(
