@@ -11,10 +11,24 @@ class TaskGridView extends StatelessWidget {
     return Consumer<TaskData>(
       builder: (context, taskdata, child) {
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 16),
           width: double.infinity,
           child: ListView(
             children: [
+              taskdata.pinnedTaskCount > 0
+                  ? Row(
+                      children: [
+                        Image.asset(
+                          'assets/icon/pin.png',
+                          height: 20,
+                          color: kPrimaryColor,
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Text('Pinned Task'),
+                      ],
+                    )
+                  : SizedBox.shrink(),
               taskdata.pinnedTaskCount > 0
                   ? GridView.count(
                       shrinkWrap: true,
@@ -30,7 +44,7 @@ class TaskGridView extends StatelessWidget {
                           )
                           .toList())
                   : SizedBox.shrink(),
-              taskdata.pinnedTaskCount > 0
+              taskdata.pinnedTaskCount > 0 && taskdata.taskCount > 0
                   ? Divider(
                       color: kPrimaryColor.withOpacity(0.5),
                       thickness: 0.8,
