@@ -20,8 +20,11 @@ class _EditTaskState extends State<EditTask> {
 
   late TextEditingController _priorityController;
 
+  late FocusNode myFocusNode;
+
   @override
   void initState() {
+    myFocusNode = FocusNode();
     super.initState();
     _titleController = TextEditingController(text: widget.selectedTask!.title);
     _descriptionController =
@@ -31,6 +34,7 @@ class _EditTaskState extends State<EditTask> {
 
   @override
   void dispose() {
+    // myFocusNode.dispose();
     _titleController.dispose();
     _descriptionController.dispose();
     _priorityController.dispose();
@@ -53,6 +57,16 @@ class _EditTaskState extends State<EditTask> {
         backgroundColor: kBackgroundColor,
         iconTheme: IconThemeData(color: kPrimaryColor),
         actions: [
+          myFocusNode.hasFocus
+              ? IconButton(
+                  onPressed: () {
+                    widget.selectedTask!.title = _titleController.text;
+                    widget.selectedTask!.description =
+                        _descriptionController.text;
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.save))
+              : SizedBox.shrink(),
           IconButton(onPressed: () {}, icon: Icon(Icons.share)),
           PopupMenuButton(
             itemBuilder: (context) => _popUpOptions,
@@ -72,6 +86,7 @@ class _EditTaskState extends State<EditTask> {
           child: Column(
             children: [
               TextField(
+                focusNode: myFocusNode,
                 autofocus: false,
                 maxLines: 2,
                 maxLength: 50,
@@ -94,8 +109,7 @@ class _EditTaskState extends State<EditTask> {
                 controller: _descriptionController,
                 autofocus: false,
                 style: TextStyle(fontSize: 18),
-                cursorColor: Colors.white,
-                // controller: _descriptionController,
+                cursorColor: kPrimaryColor,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Description',

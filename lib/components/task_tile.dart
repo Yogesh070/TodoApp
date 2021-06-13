@@ -111,7 +111,9 @@ class TaskTile extends StatelessWidget {
                 ? EdgeInsets.symmetric(horizontal: 16)
                 : (homeContoller.isListLayout && mediaWidth > 600)
                     ? EdgeInsets.all(32)
-                    : EdgeInsets.symmetric(horizontal: 0),
+                    : homeContoller.isGridLayout
+                        ? EdgeInsets.symmetric(horizontal: 16)
+                        : EdgeInsets.symmetric(horizontal: 0),
             onTap: () {
               Navigator.push(
                 context,
@@ -141,7 +143,18 @@ class TaskTile extends StatelessWidget {
                 activeColor: kSecondaryColor,
               ),
             ),
-            title: Text(task!.title!),
+            title: homeContoller.isGridLayout
+                ? Wrap(
+                    children: [
+                      Text(task!.title!),
+                      SizedBox(
+                        width: 8,
+                        // height: 8,
+                      ),
+                      _prorityContainer(task!.priority!)
+                    ],
+                  )
+                : Text(task!.title!),
             horizontalTitleGap: 0,
             subtitle: homeContoller.isGridLayout
                 ? Padding(
@@ -170,26 +183,38 @@ class TaskTile extends StatelessWidget {
 }
 
 Widget _prorityContainer(String priority) {
+  priority = priority.toLowerCase();
   Color _prirorityColor(String priority) {
-    priority = priority.toLowerCase();
-    return priority == 'low'
-        ? Colors.red
-        : priority == 'medium'
-            ? Colors.yellow
-            : Colors.green;
+    return priority == 'priorites.low'
+        ? Colors.green
+        : priority == 'priorites.medium'
+            ? Colors.orange.shade500
+            : priority == 'priorites.high'
+                ? Colors.red
+                : Colors.black54;
   }
 
   return Container(
     height: 20,
     width: 48,
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(16),
-      color: Color(0xffF7F7F7),
-    ),
+        borderRadius: BorderRadius.circular(16),
+        // color: Color(0xffF7F7F7),
+        color: _prirorityColor(priority)),
     child: Center(
         child: Text(
-      priority,
-      style: TextStyle(color: _prirorityColor(priority), fontSize: 10),
+      priority == 'priorites.low'
+          ? 'Low'
+          : priority == 'priorites.medium'
+              ? 'Med'
+              : priority == 'priorites.high'
+                  ? 'High'
+                  : 'None',
+      style: TextStyle(
+        // color: _prirorityColor(priority),
+        color: Color(0xffF7F7F7),
+        fontSize: 10,
+      ),
     )),
   );
 }

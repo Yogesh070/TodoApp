@@ -17,24 +17,22 @@ class AddTaskScreen extends StatefulWidget {
 class _AddTaskScreenState extends State<AddTaskScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
-  late TextEditingController _priorityController;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
     _descriptionController = TextEditingController();
-    _priorityController = TextEditingController();
   }
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    _priorityController.dispose();
     super.dispose();
   }
 
+  Priorites? _priority = Priorites.none;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -105,22 +103,94 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
           Row(
             children: [
-              PriorityCheckbox(
-                title: 'High',
-                priority: Priorites.high,
+              Row(
+                children: [
+                  Radio<Priorites>(
+                      fillColor: MaterialStateProperty.all(Colors.white),
+                      value: Priorites.high,
+                      groupValue: _priority,
+                      onChanged: (Priorites? newval) {
+                        setState(() {
+                          _priority = newval;
+                        });
+                      }),
+                  Text(
+                    'High',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-              PriorityCheckbox(
-                title: 'medium',
-                priority: Priorites.medium,
+              Row(
+                children: [
+                  Radio<Priorites>(
+                      fillColor: MaterialStateProperty.all(Colors.white),
+                      value: Priorites.medium,
+                      groupValue: _priority,
+                      onChanged: (Priorites? newval) {
+                        setState(() {
+                          _priority = newval;
+                        });
+                      }),
+                  Text(
+                    'Medium',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
               ),
-              PriorityCheckbox(
-                title: 'Low',
-                priority: Priorites.low,
+              Row(
+                children: [
+                  Radio<Priorites>(
+                      fillColor: MaterialStateProperty.all(Colors.white),
+                      value: Priorites.low,
+                      groupValue: _priority,
+                      onChanged: (Priorites? newval) {
+                        setState(() {
+                          _priority = newval;
+                        });
+                      }),
+                  Text(
+                    'Low',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-              PriorityCheckbox(
-                title: 'None',
-                priority: Priorites.none,
+              Row(
+                children: [
+                  Radio<Priorites>(
+                      fillColor: MaterialStateProperty.all(Colors.white),
+                      value: Priorites.none,
+                      groupValue: _priority,
+                      onChanged: (Priorites? newval) {
+                        setState(() {
+                          _priority = newval;
+                        });
+                      }),
+                  Text(
+                    'None',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
+              // PriorityCheckbox(
+              //   groupValue: Priorites.none,
+              //   title: 'High',
+              //   priority: Priorites.high,
+              // ),
+              // PriorityCheckbox(
+              //   groupValue: Priorites.none,
+              //   title: 'medium',
+              //   priority: Priorites.medium,
+              // ),
+              // PriorityCheckbox(
+              //   groupValue: Priorites.none,
+              //   title: 'Low',
+              //   priority: Priorites.low,
+              // ),
+              // PriorityCheckbox(
+              //   groupValue: Priorites.none,
+              //   title: 'None',
+              //   priority: Priorites.none,
+              // ),
             ],
           ),
           Align(
@@ -129,7 +199,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 Provider.of<TaskData>(context, listen: false).addTask(
                     _titleController.text,
                     _descriptionController.text,
-                    _priorityController.text);
+                    _priority.toString()
+                    // _priorityController.text,
+                    );
                 Navigator.pop(context);
               },
             ),
@@ -168,49 +240,56 @@ class SaveButton extends StatelessWidget {
 
 enum Priorites { low, medium, high, none }
 
-class PriorityCheckbox extends StatefulWidget {
-  final String? title;
-  final Priorites? priority;
-  PriorityCheckbox({Key? key, required this.title, required this.priority})
-      : super(key: key);
+// class PriorityCheckbox extends StatefulWidget {
+//   final String? title;
+//   final Priorites? priority;
+//   // Priorites? groupValue;
+//   PriorityCheckbox(
+//       {Key? key,
+//       required this.title,
+//       required this.priority,
+//       required this.groupValue})
+//       : super(key: key);
 
-  @override
-  _PriorityCheckboxState createState() => _PriorityCheckboxState();
-}
+//   @override
+//   _PriorityCheckboxState createState() => _PriorityCheckboxState();
+// }
 
-class _PriorityCheckboxState extends State<PriorityCheckbox> {
-  Priorites? _priority = Priorites.none;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Radio(
-            fillColor: MaterialStateProperty.all(Colors.white),
-            // toggleable: true,
-            value: widget.priority!,
-            groupValue: _priority,
-            onChanged: (Priorites? newval) {
-              setState(() {
-                _priority = newval;
-                // print(_priority);
-              });
-              print(_priority);
-              print(widget.priority);
-            }),
-        // Checkbox(
-        //   visualDensity: VisualDensity.compact,
-        //   side: BorderSide(color: Colors.white),
-        //   value: true,
-        //   onChanged: (val) {},
-        //   shape: RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.circular(20),
-        //   ),
-        // ),
-        Text(
-          widget.title!,
-          style: TextStyle(color: Colors.white),
-        )
-      ],
-    );
-  }
-}
+// class _PriorityCheckboxState extends State<PriorityCheckbox> {
+//   // Priorites? _priority = Priorites.none;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         Radio<Priorites>(
+//             fillColor: MaterialStateProperty.all(Colors.white),
+//             // toggleable: true,
+//             value: widget.priority!,
+//             // groupValue: _priority,
+//             groupValue: widget.groupValue,
+//             onChanged: (Priorites? newval) {
+//               setState(() {
+//                 // _priority = newval;
+//                 widget.groupValue = newval;
+//                 // print(_priority);
+//               });
+//               // print(_priority);
+//               // print(widget.priority);
+//             }),
+//         // Checkbox(
+//         //   visualDensity: VisualDensity.compact,
+//         //   side: BorderSide(color: Colors.white),
+//         //   value: true,
+//         //   onChanged: (val) {},
+//         //   shape: RoundedRectangleBorder(
+//         //     borderRadius: BorderRadius.circular(20),
+//         //   ),
+//         // ),
+//         Text(
+//           widget.title!,
+//           style: TextStyle(color: Colors.white),
+//         )
+//       ],
+//     );
+//   }
+// }
