@@ -129,7 +129,10 @@ class HomeScreen extends StatelessWidget {
             child: ListView(
               children: [
                 DrawerHeader(
-                  child: Text('data'),
+                  child: Text(
+                    'Todozzz App',
+                    style: TextStyle(color: kPrimaryColor),
+                  ),
                 ),
                 ListTile(
                   leading: Icon(Icons.track_changes),
@@ -139,6 +142,14 @@ class HomeScreen extends StatelessWidget {
                     children: [Text('may 6'), Text('data')],
                   ),
                 ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutScreen()));
+                    },
+                    child: Text('About'))
               ],
             ),
           ),
