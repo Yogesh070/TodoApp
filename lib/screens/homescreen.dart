@@ -10,13 +10,27 @@ import 'package:todoapp/components/task_list_listview.dart';
 import 'package:provider/provider.dart';
 import 'package:todoapp/controllers/task_data_controller.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _drawerKey = new GlobalKey<ScaffoldState>();
+
   final List categories = [
     'Tasks',
     'Notes',
     'Meetings',
   ];
+
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await Provider.of<TaskData>(context, listen: false)
+          .getTodosFromSharedPreference();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
